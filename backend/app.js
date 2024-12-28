@@ -9,7 +9,7 @@ const bookingRouter = require('./routes/bookingRoutes')
 app.set('trust proxy', true);
 
 app.use(cors({
-    origin: ['https://credit-app-frontend.onrender.com', 'http://localhost:3000'],
+    origin: ['https://hotel-management-2-03dr.onrender.com', 'http://localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));

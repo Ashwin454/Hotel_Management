@@ -5,7 +5,7 @@ import { getAllBookings, logout } from "../store/slices";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { loading, user } = useSelector((state) => state.auth);
+  const { loading, user, isAuthenticated } = useSelector((state) => state.auth); // Get isAuthenticated from state
   const { allBookings } = useSelector((state) => state.book);
 
   const dispatch = useDispatch();
@@ -23,8 +23,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllBookings({ hotelName: user?.data?.user1?.hotelName }));
-  }, [dispatch, user?.data?.user1?.hotelName]);
+    if (isAuthenticated) {
+      dispatch(getAllBookings({ hotelName: user?.data?.user1?.hotelName }));
+    } else {
+      navigate('/register'); // Redirect to register page if not authenticated
+    }
+  }, [dispatch, user?.data?.user1?.hotelName, isAuthenticated, navigate]);
 
   useEffect(() => {
     if (allBookings?.data?.bookings) {
@@ -54,6 +58,11 @@ const Home = () => {
     navigate('/book-room');
   };
 
+  // If the user is not authenticated, don't render the Home page
+  if (!isAuthenticated) {
+    return navigate('/register'); // Redirect to register if not authenticated
+  }
+
   return (
     <>
       {loading ? (
@@ -78,7 +87,6 @@ const Home = () => {
               </button>
             </div>
           </nav>
-
 
           {/* Welcome Banner */}
           <div className="bg-[#79D7BE] text-center py-10 rounded-lg shadow-lg mt-6 mb-6">

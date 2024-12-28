@@ -31,7 +31,7 @@ const initialState2 = {
 
 export const register = createAsyncThunk('auth/register', async(formData, thunkAPI)=>{
     try{
-        const response = await axios.post('http://localhost:8080/api/v1/register', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/register', formData);
         return {
             data: response.data,
             status: response.status,
@@ -43,7 +43,7 @@ export const register = createAsyncThunk('auth/register', async(formData, thunkA
 })
 export const verifyEmail = createAsyncThunk('auth/verifyEmail', async(formData, thunkAPI)=>{
     try{
-        const response = await axios.post('http://localhost:8080/api/v1/verify-email', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/verify-email', formData);
         return{
             data:response.data,
             status:response.status
@@ -55,7 +55,7 @@ export const verifyEmail = createAsyncThunk('auth/verifyEmail', async(formData, 
 })
 export const logout = createAsyncThunk('auth/logout', async(_, thunkAPI)=>{
     try{
-        const response = await axios.post('http://localhost:8080/api/v1/logout');
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/logout');
         return{
             data:response.data,
             status: response.status
@@ -67,7 +67,7 @@ export const logout = createAsyncThunk('auth/logout', async(_, thunkAPI)=>{
 })
 export const login = createAsyncThunk('auth/login', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/login', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/login', formData);
         return{
             data:response.data,
             status:response.status
@@ -79,7 +79,7 @@ export const login = createAsyncThunk('auth/login', async(formData, thunkAPI)=>{
 })
 export const forgotPass = createAsyncThunk('auth/forgotPass', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/forgotPass', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/forgotPass', formData);
         return{
             data:response.data,
             status:response.status
@@ -97,7 +97,7 @@ export const resetPass = createAsyncThunk('auth/resetPass', async(formData, thun
         }
         
         const token=formData.token;
-        const response = await axios.post(`http://localhost:8080/api/v1/resetPass/${token}`, d);
+        const response = await axios.post(`https://hotel-management-1-qd6w.onrender.com/api/v1/resetPass/${token}`, d);
         return{
             data:response.data,
             status:response.status
@@ -109,7 +109,7 @@ export const resetPass = createAsyncThunk('auth/resetPass', async(formData, thun
 })
 export const checkAvRooms = createAsyncThunk('book/checkAvRooms', async(formData, thunkAPI)=>{
     try{
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/getAvRooms', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/getAvRooms', formData);
         return {
             data:response.data,
             status:response.status
@@ -121,7 +121,7 @@ export const checkAvRooms = createAsyncThunk('book/checkAvRooms', async(formData
 })
 export const createBooking = createAsyncThunk('book/createBooking', async(formData, thunkAPI)=>{
     try{
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/create-booking', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/create-booking', formData);
         return{
             data:response.data,
             status:response.status
@@ -133,7 +133,7 @@ export const createBooking = createAsyncThunk('book/createBooking', async(formDa
 })
 export const getBookings = createAsyncThunk('book/getBookings', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/get-bookings', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/get-bookings', formData);
         return{
             data:response.data,
             status:response.status
@@ -145,7 +145,7 @@ export const getBookings = createAsyncThunk('book/getBookings', async(formData, 
 })
 export const editBooking = createAsyncThunk('book/editBooking', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/update-booking', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/update-booking', formData);
         return{
             data:response.data,
             status:response.status
@@ -157,7 +157,7 @@ export const editBooking = createAsyncThunk('book/editBooking', async(formData, 
 })
 export const cancelBooking = createAsyncThunk('book/cancelBooking', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/cancel-booking', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/cancel-booking', formData);
         return{
             data:response.data,
             status:response.status
@@ -169,7 +169,7 @@ export const cancelBooking = createAsyncThunk('book/cancelBooking', async(formDa
 })
 export const getAllRooms = createAsyncThunk('book/getAllRooms', async(formData, thunkAPI)=>{
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/rooms/getAllRooms', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/rooms/getAllRooms', formData);
         console.log(response);
         return{
             data:response.data,
@@ -182,7 +182,7 @@ export const getAllRooms = createAsyncThunk('book/getAllRooms', async(formData, 
 })
 export const editRoom = createAsyncThunk('book/editRoom', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/rooms/edit-room', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/rooms/edit-room', formData);
         return{
             data:response.data,
             status:response.status
@@ -194,7 +194,7 @@ export const editRoom = createAsyncThunk('book/editRoom', async(formData, thunkA
 })
 export const addExpense = createAsyncThunk('book/addExpense', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/add-expense', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/add-expense', formData);
         console.log(response);
         return{
             data:response.data,
@@ -207,7 +207,7 @@ export const addExpense = createAsyncThunk('book/addExpense', async(formData, th
 })
 export const deleteExpense = createAsyncThunk('book/deleteExpense', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/delete-expense', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/delete-expense', formData);
         console.log(response);
         return{
             data:response.data,
@@ -221,7 +221,7 @@ export const deleteExpense = createAsyncThunk('book/deleteExpense', async(formDa
 
 export const getAllCustomers = createAsyncThunk('book/getAllCustomers', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/get-all-customers', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/get-all-customers', formData);
         return{
             data:response.data,
             status:response.status
@@ -233,7 +233,7 @@ export const getAllCustomers = createAsyncThunk('book/getAllCustomers', async(fo
 })
 export const getAllBookings = createAsyncThunk('book/getAllBookings', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/get-all-bookings', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/get-all-bookings', formData);
         console.log(response);
         return{
             data:response.data,
@@ -247,7 +247,7 @@ export const getAllBookings = createAsyncThunk('book/getAllBookings', async(form
 
 export const getAllExpenses = createAsyncThunk('book/getAllExpenses', async(formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/all-expenses', formData);
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/all-expenses', formData);
         console.log(response);
         return{
             data:response.data,
@@ -261,7 +261,7 @@ export const getAllExpenses = createAsyncThunk('book/getAllExpenses', async(form
 
 export const checkOuter = createAsyncThunk('book/checkOut', async (formData, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/bookings/checkOut', formData, {
+        const response = await axios.post('https://hotel-management-1-qd6w.onrender.com/api/v1/bookings/checkOut', formData, {
             responseType: 'blob'  // Add this to handle the response as a Blob
         });
         

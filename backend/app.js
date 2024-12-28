@@ -14,6 +14,16 @@ app.use(cors({
     credentials: true
 }));
 
+const path = require('path');
+
+// Serve static files from the React build folder
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+// All other routes should serve the React index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+});
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

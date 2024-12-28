@@ -6,6 +6,7 @@ const bodyParser=require('body-parser');
 const router = require("./routes/userRoutes");
 const roomsRouter = require('./routes/roomRoutes');
 const bookingRouter = require('./routes/bookingRoutes')
+
 app.set('trust proxy', true);
 
 app.use(cors({
@@ -26,7 +27,6 @@ app.get('*', (req, res) => {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/api/v1", router);

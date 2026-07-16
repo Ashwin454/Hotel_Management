@@ -50,6 +50,7 @@ exports.registerUser=async(req, res, next)=>{
             sameSite:"none",
             expires:new Date(Date.now() + 200*60*60*1000)
         })
+        console.log(user1);
         await createRooms(hotelName, numberRooms);
         return res.status(200).cookie('token',token, option).json({
             success:true,

@@ -2,35 +2,37 @@ const bookingModels = require("../models/bookingModels");
 const Room = require("../models/roomModels");
 const User = require("../models/userModels");
 
-const Room = require("../models/Room");
-
-// CREATE ROOMS FUNCTION
 exports.createRooms = async (hotelName, numberRooms) => {
-  try {
-    const existingRooms = await Room.find({ hotelName });
-
-    if (existingRooms.length > 0) {
-      console.log("Rooms already exist, skipping creation");
-      return;
+    try {
+      // Check if the hotel already has rooms created
+      const existingRooms = await Room.find({ hotelName });
+      if (existingRooms.length > 0) {
+        throw new Error("Rooms are already created for this hotel");
+      }
+  
+      // Create default rooms based on the number of rooms provided
+      const rooms = [];
+      for (let i = 1; i <= numberRooms; i++) {
+        const room = new Room({
+          hotelName,
+          number: i.toString(),
+          ac: i % 2 === 0, // Default value: even-numbered rooms have AC, odd ones do not
+          standardPrice: 1000, // Default price
+          maxPersons: 2, // Default maximum persons per room
+        });
+        rooms.push(room);
+      }
+  
+      // Save the rooms in the database
+      await Room.insertMany(rooms);
+  
+      return { message: `${numberRooms} rooms created successfully` };
+    } catch (err) {
+      console.error(err);
+      throw new Error("Server error while creating rooms");
     }
-
-    const rooms = [];
-
-    for (let i = 1; i <= numberRooms; i++) {
-      rooms.push({
-        hotelName,
-        number: i.toString(),
-        ac: i % 2 === 0,
-        standardPrice: 1000,
-        maxPersons: 2,
-      });
-    }
-
-    await Room.insertMany(rooms);
-  } catch (err) {
-    console.error("Room creation error:", err.message);
-  }
-};  
+  };
+  
 
 // 2. Edit rooms - allows editing the default values of a room
 exports.editRoom = async (req, res) => {

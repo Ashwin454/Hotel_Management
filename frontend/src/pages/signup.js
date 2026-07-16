@@ -21,13 +21,19 @@ const SignupForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ✅ Validation
+    if (!numberRooms || Number(numberRooms) <= 0) {
+      Swal.fire("Error", "Enter valid number of rooms", "error");
+      return;
+    }
+
     const formData = {
       name,
       email,
       phone,
       password,
       hotelName,
-      numberRooms,
+      numberRooms: Number(numberRooms), // ✅ FIX
     };
 
     dispatch(register(formData));
@@ -35,10 +41,12 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/verify-email", { state: { email } }); // pass email
+      navigate("/verify-email", { state: { email } });
     }
 
-    
+    if (error) {
+      Swal.fire("Error", error, "error");
+    }
   }, [isAuthenticated, error, navigate, email]);
 
   return (
@@ -53,69 +61,87 @@ const SignupForm = () => {
             </h1>
 
             <form onSubmit={handleSubmit}>
+              {/* Name */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">Name</label>
                 <input
                   type="text"
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter your name"
+                  required
                 />
               </div>
 
+              {/* Email */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">Email</label>
                 <input
                   type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter your email"
+                  required
                 />
               </div>
 
+              {/* Hotel Name */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">Hotel Name</label>
                 <input
                   type="text"
+                  value={hotelName}
                   onChange={(e) => setHotelName(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter your hotel name"
+                  required
                 />
               </div>
 
+              {/* Number of Rooms */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">
                   Number of Rooms
                 </label>
                 <input
                   type="number"
+                  value={numberRooms}
                   onChange={(e) => setNumberRooms(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter number of rooms"
+                  required
                 />
               </div>
 
+              {/* Phone */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">Phone</label>
                 <input
                   type="text"
+                  value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter your phone number"
+                  required
                 />
               </div>
 
+              {/* Password */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#2E5077]">Password</label>
                 <input
                   type="password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full p-3 mt-1 border rounded"
                   placeholder="Enter your password"
+                  required
                 />
               </div>
 
-              <button className="w-full p-3 text-white bg-[#2E5077] rounded">
+              <button className="w-full p-3 text-white bg-[#2E5077] rounded hover:bg-[#1f3a5f] transition">
                 Sign Up
               </button>
             </form>

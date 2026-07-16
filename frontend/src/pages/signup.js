@@ -44,9 +44,6 @@ const SignupForm = () => {
       navigate("/verify-email", { state: { email } });
     }
 
-    if (error) {
-      Swal.fire("Error", error, "error");
-    }
   }, [isAuthenticated, error, navigate, email]);
 
   return (

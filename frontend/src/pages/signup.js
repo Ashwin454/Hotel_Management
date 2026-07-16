@@ -38,13 +38,7 @@ const SignupForm = () => {
       navigate("/verify-email", { state: { email } }); // pass email
     }
 
-    if (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Sign Up Failed',
-        text: error.response?.data?.message || 'An unexpected error occurred',
-      });
-    }
+    
   }, [isAuthenticated, error, navigate, email]);
 
   return (

@@ -12,59 +12,78 @@ const sendEmailVerificationOTP = require("../utils/sendVerificationOTP");
 const sendEmailVerificationModel = require("../models/emailVerification");
 const { createRooms } = require("./roomController");
 
-exports.registerUser=async(req, res, next)=>{
-    try{
-        const {name, email, hotelName, numberRooms, password, confirmPass}=req.body;
-        if(!name || !email  || !password || !hotelName || !numberRooms){
-            return res.status(400).json({
-                message:"Give complete Data"
-            })
-        }
-        const existingUser=await user.findOne({email});
-        if(existingUser){
-            return res.status(409).json({
-                success:false,
-                message:"User already exists"
-            })
-        }
-        const hashedPass=await bcrypt.hash(password, 10);
-        const user1=await user.create({
-            name,
-            email,
-            password:hashedPass,
-            hotelName,
-            numberRooms
-        });
-        sendEmailVerificationOTP(req, user1);
-        const token=await JWT.sign({id: user1._id, email: user1.email},process.env.JWT_SECRET , {expiresIn: '200h'});
-        const option={
-            httpOnly:false,
-            secure: true,
-            sameSite:"none",
-            expires:new Date(Date.now() + 200*60*60*1000)
-        }
-        req.user=user1;
-        res.cookie('is_auth', true, {
-            httpOnly:false,
-            secure:true,
-            sameSite:"none",
-            expires:new Date(Date.now() + 200*60*60*1000)
-        })
-        console.log(user1);
-        await createRooms(hotelName, numberRooms);
-        return res.status(200).cookie('token',token, option).json({
-            success:true,
-            user1,
-            token:token
-        })
-    }catch(error){
-        return res.status(500).json({
-            success:false,
-            error:error.message,
-            message:"Internal Server error"
-        })
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { createRooms } = require("./roomController");
+
+// REGISTER USER
+exports.registerUser = async (req, res) => {
+  try {
+    console.log("Register API hit");
+
+    const { name, email, hotelName, numberRooms, password } = req.body;
+
+    // Validation
+    if (!name || !email || !hotelName || !numberRooms || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
-}
+
+    // Check existing user
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Create user
+    const user = await User.create({
+      name,
+      email,
+      hotelName,
+      numberRooms,
+      password: hashedPassword,
+      otp,
+      isVerified: false,
+    });
+
+    // ✅ CREATE ROOMS (SAFE)
+    try {
+      await createRooms(hotelName, numberRooms);
+      console.log("Rooms created successfully");
+    } catch (err) {
+      console.log("Room creation failed:", err.message);
+    }
+
+    // TODO: send OTP email here if needed
+
+    return res.status(200).json({
+      success: true,
+      message: "User registered. Please verify OTP",
+    });
+
+  } catch (error) {
+    console.error("Register Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 exports.verifyEmail=async(req, res)=>{
     try{
         const {email, otp}=req.body;

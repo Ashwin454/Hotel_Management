@@ -1,22 +1,14 @@
-const nodeMailer=require("nodemailer");
+const { Resend } = require("resend");
 
-const sendEmail= async(options)=>{
-    const transporter=nodeMailer.createTransport({
-        host:process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        secure: false,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        },
-    })
-    const mailOptions={
-        from: process.env.EMAIL_FROM,
+const resend = new Resend('re_9nDMHXjB_PWqvW96NNqFfdnDmfrxexYHn');
+
+const sendEmail = async (options) => {
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
         to: options.email,
-        subject: "Forget Password verification link",
+        subject: options.subject || "Password Reset",
         html: options.message
-    }
-    await transporter.sendMail(mailOptions);
-}
+    });
+};
 
-module.exports=sendEmail;
+module.exports = sendEmail;

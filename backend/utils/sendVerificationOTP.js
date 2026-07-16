@@ -1,7 +1,7 @@
 const { Resend } = require("resend");
 const sendEmailVerificationModel = require("../models/emailVerification");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend('re_9nDMHXjB_PWqvW96NNqFfdnDmfrxexYHn');
 
 const sendEmailVerificationOTP = async (req, user) => {
     const otp = Math.floor(1000 + Math.random() * 9000);
@@ -11,17 +11,15 @@ const sendEmailVerificationOTP = async (req, user) => {
         otp: otp
     }).save();
 
-    const otpVerificationLink = `${process.env.FRONTEND_HOST}/account/verify-email`;
 
     await resend.emails.send({
-        from: process.env.EMAIL_FROM,
+        from: "onboarding@resend.dev",
         to: user.email,
         subject: "OTP for Account verification",
         html: `
         <p>Dear ${user.name},</p>
         <p>Verify your email using the OTP below:</p>
         <h2>${otp}</h2>
-        <p>Or visit: ${otpVerificationLink}</p>
         `
     });
 

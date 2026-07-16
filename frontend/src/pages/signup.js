@@ -41,7 +41,7 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/verify-email", { state: { email } });
+      navigate("/", { state: { email } });
     }
 
   }, [isAuthenticated, error, navigate, email]);

@@ -146,15 +146,3 @@ npm start
 ```
 
 For production, build the frontend (`npm run build` in `/frontend`) — the Express server is already configured to serve the React build folder as static files and handle client-side routing.
-
-## ⚠️ Security Notes
-
-A few things worth fixing before deploying this publicly or sharing the repo:
-
-1. **Hardcoded MongoDB credentials**: `backend/config/database.js` currently has a live MongoDB Atlas connection string (including username/password) hardcoded directly in the source rather than loaded from `config.env`. This should be moved to an environment variable (e.g. `MONGO_URI`) and the exposed credentials should be **rotated immediately**, especially since this file is likely tracked in git.
-2. **Committed `.env` / `config.env` files**: Both `backend/.env` and `backend/config/config.env` contain real secrets (JWT secret, email credentials, Resend API key) and appear to be included in the project rather than git-ignored. These should be added to `.gitignore` and rotated if they've ever been pushed to a public repo.
-3. **CORS origins**: `app.js` whitelists specific deployed frontend URLs (Render/Vercel) plus localhost — update these if you redeploy elsewhere.
-
-## License
-
-No license file is included in this project. Add one if you intend to open-source it.
